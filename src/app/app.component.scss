@@ -1,0 +1,17 @@
+ion-app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; 
+    background-color: #f0f0f0; 
+  }
+  
+  ion-router-outlet {
+    width: 100%;
+    max-width: 600px; 
+    background-color: #fff; 
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  }
+  
