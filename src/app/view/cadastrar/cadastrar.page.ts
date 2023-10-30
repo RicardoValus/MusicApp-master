@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { Musica } from 'src/app/model/entities/Musica';
-import { MusicaService } from 'src/app/model/services/musica.service';
+import { FirebaseService } from 'src/app/model/services/firebase.service';
 
 @Component({
   selector: 'app-cadastrar',
@@ -15,23 +15,36 @@ export class CadastrarPage implements OnInit {
   public genero! : number;
   public data! : number;
   public duracao! : string;
+  public imagem! : any;
 
   constructor(private alertController: AlertController,
-    private router : Router, private musicaService : MusicaService) { }
+    private router : Router, private firebase : FirebaseService) { }
 
   ngOnInit() {
   }
 
+  uploadFile(imagem : any){
+    this.imagem = imagem.files;
+  }
+
   cadastrar(){
-    if(this.nome && this.cantor){
+    if(this.nome && this.cantor && this.imagem){
       let novo: Musica = new Musica(this.nome, this.cantor);
       novo.genero = this.genero;
       novo.data = this.data;
       novo.duracao = this.duracao;
-      this.musicaService.cadastrar(novo);
-      this.router.navigate(["/home"]);
+      if(this.imagem){
+        this.firebase.uploadImage(this.imagem, novo)?.then(() => {this.router.navigate(['/home'])})
+      }else{
+        this.firebase.cadastrar(novo)
+      .then(()=> this.router.navigate(["/home"]))
+      .catch((error) => {
+        console.log(error)
+        this.presentAlert("Erro", "Erro ao salvar musica!");
+      })
+      }   
     }else{
-      this.presentAlert("Erro", "Nome e Cantor são campos obrigatórios!");
+      this.presentAlert("Erro", "Nome, Cantor e imagem são campos obrigatórios!");
     }
   }
 

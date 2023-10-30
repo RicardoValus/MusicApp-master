@@ -16,7 +16,7 @@ const routes: Routes = [
     loadChildren: () => import('./view/cadastrar/cadastrar.module').then( m => m.CadastrarPageModule)
   },
   {
-    path: 'detalhar/:indice',
+    path: 'detalhar',
     loadChildren: () => import('./view/detalhar/detalhar.module').then( m => m.DetalharPageModule)
   },
 ];

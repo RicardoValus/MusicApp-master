@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { Musica } from 'src/app/model/entities/Musica';
-import { MusicaService } from 'src/app/model/services/musica.service';
+import { FirebaseService } from 'src/app/model/services/firebase.service';
+
 
 @Component({
   selector: 'app-home',
@@ -13,16 +14,24 @@ export class HomePage {
   public listaDeMusicas : Musica[] = [];
 
   constructor(private alertController : AlertController,
-    private router : Router, private musicaService : MusicaService) {
-      this.listaDeMusicas = this.musicaService.obterTodos();
+    private router : Router, private firebase : FirebaseService) {
+    this.firebase.buscarTodos() 
+    .subscribe(res => {
+      this.listaDeMusicas = res.map(musica => {
+        return{
+          id: musica.payload.doc.id,
+            ...musica.payload.doc.data() as any
+      }as Musica
+    })
+    })
     }
   
   irParaCadastrar(){
     this.router.navigate(["/cadastrar"]);
   }
 
-  editar(indice : number){
-    this.router.navigate(["/detalhar", indice]);
+  editar(musica : Musica){
+    this.router.navigateByUrl("/detalhar", {state : {musica : musica}});
   }
 
 }

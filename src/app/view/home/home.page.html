@@ -7,8 +7,9 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-list *ngFor="let musica of this.listaDeMusicas; let i = index">
-    <ion-item (click)="editar(i)">
+  <ion-list *ngFor="let musica of this.listaDeMusicas">
+    <ion-item (click)="editar(musica)">
+      <ion-avatar> <img src = "{{ musica.downloadURL }}"> </ion-avatar>
       <ion-label id="musica">{{musica.nome}}</ion-label>
     </ion-item>
   </ion-list>

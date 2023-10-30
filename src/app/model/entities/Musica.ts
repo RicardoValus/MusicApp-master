@@ -4,6 +4,23 @@ export class Musica{
     private _genero!: number;
     private _data!: number;
     private _duracao!: string;
+    private _id!: string;
+    private _downloadURL!: any;
+
+
+    public get downloadURL(): any {
+      return this._downloadURL;
+    }
+    public set downloadURL(value: any) {
+      this._downloadURL = value;
+    }
+    
+    public get id(): string {
+      return this._id;
+    }
+    public set id(value: string) {
+      this._id = value;
+    }
    
     constructor(nome : string, cantor: string){
      this._nome = nome;
