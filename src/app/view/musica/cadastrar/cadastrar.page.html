@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title id="titulo">Playlist</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+
+    <ion-item>
+      <ion-input label="Nome" placeholder="Insira o nome" [(ngModel)]="nome"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Cantor(a)" placeholder="Insira o cantor(a)" [(ngModel)]="cantor"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-select label="Gênero" placeholder="Selecione" [(ngModel)]="genero">
+        <ion-select-option value="0">POP</ion-select-option>
+        <ion-select-option value="1">Rock</ion-select-option>
+        <ion-select-option value="2">RAP</ion-select-option>
+        <ion-select-option value="3">Trap</ion-select-option>
+        <ion-select-option value="4">MPB</ion-select-option>
+        <ion-select-option value="5">Sertanejo</ion-select-option>
+        <ion-select-option value="6">Funk</ion-select-option>
+        <ion-select-option value="7">R&B</ion-select-option>
+        <ion-select-option value="8">Axé</ion-select-option>
+        <ion-select-option value="9">Blues</ion-select-option>
+        <ion-select-option value="10">Country</ion-select-option>
+        <ion-select-option value="11">Eletrônica</ion-select-option>
+        <ion-select-option value="12">Forró</ion-select-option>
+        <ion-select-option value="13">Gospel</ion-select-option>
+        <ion-select-option value="14">Hip Hop</ion-select-option>
+        <ion-select-option value="15">Jazz</ion-select-option>
+        <ion-select-option value="16">Música Clássica</ion-select-option>
+        <ion-select-option value="17">Pagode</ion-select-option>
+        <ion-select-option value="18">Reggae</ion-select-option>
+        <ion-select-option value="19">Samba</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Ano de Lançamento" type="number" placeholder="Insira o ano" [(ngModel)]="data"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Tempo de Duração" placeholder="MM:SS" [(ngModel)]="duracao"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-button size="default" color="success" shape="round">
+        <input type="file" (change)="uploadFile($event.target)">
+      </ion-button>
+    </ion-item>
+    <ion-button expand="full" (click)="cadastrar()">Cadastrar</ion-button>
+
+  </ion-list>
+</ion-content>
