@@ -6,17 +6,18 @@
 
 <ion-content>
   <ion-list>
+    <form [formGroup]="cadastrarForm" (ngSubmit)="cadastrar()" novalidate>
 
     <ion-item>
-      <ion-input label="Nome" placeholder="Insira o nome" [(ngModel)]="nome"></ion-input>
+      <ion-input label="Nome" placeholder="Insira o nome" formControlName="nome"></ion-input>
     </ion-item>
-
+    <span *ngIf="cadastrarForm.get('nome')?.touched && cadastrarForm.get('nome')?.errors?.['required']">O campo nome é obrigatório</span>
     <ion-item>
-      <ion-input label="Cantor(a)" placeholder="Insira o cantor(a)" [(ngModel)]="cantor"></ion-input>
+      <ion-input label="Cantor(a)" placeholder="Insira o cantor(a)" formControlName="cantor"></ion-input>
     </ion-item>
-
+    <span *ngIf="cadastrarForm.get('cantor')?.touched && cadastrarForm.get('cantor')?.errors?.['required']">O campo cantor é obrigatório</span>
     <ion-item>
-      <ion-select label="Gênero" placeholder="Selecione" [(ngModel)]="genero">
+      <ion-select label="Gênero" placeholder="Selecione" formControlName="genero">
         <ion-select-option value="0">POP</ion-select-option>
         <ion-select-option value="1">Rock</ion-select-option>
         <ion-select-option value="2">RAP</ion-select-option>
@@ -39,21 +40,22 @@
         <ion-select-option value="19">Samba</ion-select-option>
       </ion-select>
     </ion-item>
-
+    <span *ngIf="cadastrarForm.get('genero')?.touched && cadastrarForm.get('genero')?.errors?.['required']">O campo genero é obrigatório</span>
     <ion-item>
-      <ion-input label="Ano de Lançamento" type="number" placeholder="Insira o ano" [(ngModel)]="data"></ion-input>
+      <ion-input label="Ano de Lançamento" type="number" placeholder="Insira o ano" formControlName="data"></ion-input>
     </ion-item>
-
+    <span *ngIf="cadastrarForm.get('data')?.touched && cadastrarForm.get('data')?.errors?.['required']">O campo ano de lançamento é obrigatório</span>
+    
     <ion-item>
-      <ion-input label="Tempo de Duração" placeholder="MM:SS" [(ngModel)]="duracao"></ion-input>
+      <ion-input label="Tempo de Duração" placeholder="MM:SS" formControlName="duracao"></ion-input>
     </ion-item>
-
+    <span *ngIf="cadastrarForm.get('duracao')?.touched && cadastrarForm.get('duracao')?.errors?.['required']">O campo tempo de duracao é obrigatório</span>
     <ion-item>
       <ion-button size="default" color="success" shape="round">
-        <input type="file" (change)="uploadFile($event.target)">
+        <input type="file" (change)="uploadFile($event)">
       </ion-button>
     </ion-item>
-    <ion-button expand="full" (click)="cadastrar()">Cadastrar</ion-button>
-
+    <ion-button expand="full" color="success" (click)="cadastrar()">Cadastrar</ion-button>
+  </form>
   </ion-list>
 </ion-content>

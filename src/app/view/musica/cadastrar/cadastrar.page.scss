@@ -1,48 +1,62 @@
+span{
+  color: #1db954;
+}
 ion-header {
   ion-toolbar {
     ion-title#titulo {
       font-size: 24px;
       font-weight: bold;
       text-align: center;
-      color: #00cc00; 
-      background-color: #f0f0f0; 
-      padding: 10px; 
-      border-bottom: 2px solid #00cc00;
+      color: #1db954;
+      background-color: #191414;
+      padding: 10px;
+      border-bottom: 2px solid #1db954;
     }
   }
 }
 
-ion-button, ion-fab-button {
-  background-color: #00cc00; 
-  color: #fff;
-  transition: background-color 0.3s ease; 
+ion-content {
+  ion-list {
+    form {
+      ion-item {
+        ion-label {
+          color: #1db954;
+          font-weight: bold;
+        }
 
-  &:hover {
-    background-color: #009900; 
-  }
-}
+        ion-input,
+        ion-select {
+          border-color: #1db954;
 
-ion-fab-button {
-  ion-icon {
-    font-size: 32px;
-  }
-}
+          &:focus {
+            border-color: #1db954;
+          }
+        }
 
+        ion-button {
+          margin-top: 10px;
+          &.success-button {
+            background-color: #1db954;
+            color: #fff;
+            transition: background-color 0.3s ease;
 
-ion-input {
-  ion-label {
-    color: #00cc00; 
-    font-weight: bold;
-  }
+            &:hover {
+              background-color: #25a05c;
+            }
+          }
+        }
 
+        span {
+          color: #1db954;
+          font-weight: bold;
+          margin-top: 5px;
+          display: block;
+        }
+      }
 
-  &.ion-focused {
-    ion-label {
-      color: #00cc00; 
-    }
-
-    input {
-      border-color: #00cc00; 
+      ion-button {
+        margin-top: 10px;
+      }
     }
   }
 }

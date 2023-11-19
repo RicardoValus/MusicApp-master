@@ -8,21 +8,19 @@
 </ion-header>
 
 <ion-content>
-  <ion-item>
-    <ion-toggle (ionChange)="habilitar()">Habilitar Edição</ion-toggle>
-  </ion-item>
-
   <ion-list>
-    <ion-item>
-      <ion-input label="Nome" placeholder="Digite o nome" [(ngModel)]="nome" disabled="{{edicao}}"></ion-input>
-    </ion-item>
+    <form [formGroup]="detalharForm" (ngSubmit)="editar()" novalidate>
 
     <ion-item>
-      <ion-input label="Cantor(A)" placeholder="Digite o nome do cantor(a)" [(ngModel)]="cantor" disabled="{{edicao}}"></ion-input>
+      <ion-input label="Nome" placeholder="Insira o nome" formControlName="nome"></ion-input>
     </ion-item>
-
+    <span *ngIf="detalharForm.get('nome')?.touched && detalharForm.get('nome')?.errors?.['required']">O campo nome é obrigatório</span>
     <ion-item>
-      <ion-select label="Gênero" placeholder="Selecione" [(ngModel)]="genero" disabled="{{edicao}}">
+      <ion-input label="Cantor(a)" placeholder="Insira o cantor(a)" formControlName="cantor"></ion-input>
+    </ion-item>
+    <span *ngIf="detalharForm.get('cantor')?.touched && detalharForm.get('cantor')?.errors?.['required']">O campo cantor é obrigatório</span>
+    <ion-item>
+      <ion-select label="Gênero" placeholder="Selecione" formControlName="genero">
         <ion-select-option value="0">POP</ion-select-option>
         <ion-select-option value="1">Rock</ion-select-option>
         <ion-select-option value="2">RAP</ion-select-option>
@@ -45,21 +43,23 @@
         <ion-select-option value="19">Samba</ion-select-option>
       </ion-select>
     </ion-item>
-
+    <span *ngIf="detalharForm.get('genero')?.touched && detalharForm.get('genero')?.errors?.['required']">O campo genero é obrigatório</span>
     <ion-item>
-      <ion-input label="Ano de Lançamento" type="number" placeholder="Insira o ano" [(ngModel)]="data" disabled="{{edicao}}"></ion-input>
+      <ion-input label="Ano de Lançamento" type="number" placeholder="Insira o ano" formControlName="data"></ion-input>
     </ion-item>
-
+    <span *ngIf="detalharForm.get('data')?.touched && detalharForm.get('data')?.errors?.['required']">O campo ano de lançamento é obrigatório</span>
     <ion-item>
-      <ion-input label="Tempo de Duração" placeholder="MM:SS" [(ngModel)]="duracao" disabled="{{edicao}}"></ion-input>
+      <ion-input label="Tempo de Duração" placeholder="MM:SS" formControlName="duracao"></ion-input>
     </ion-item>
-    <img src = "{{this.musica.downloadURL}}">
+    <span *ngIf="detalharForm.get('duracao')?.touched && detalharForm.get('duracao')?.errors?.['required']">O campo tempo de duracao é obrigatório</span>
     <ion-item>
       <ion-button size="default" color="success" shape="round">
-        <input type="file" (change)="uploadFile($event.target)">
+        <input type="file" (change)="uploadFile($event)">
       </ion-button>
     </ion-item>
-    <ion-button expand="full" (click)="editar()" disabled="{{edicao}}">Salvar</ion-button>
-    <ion-button expand="full" (click)="mensagemDeConfirmacao()" color="danger" disabled="{{edicao}}">Excluir</ion-button>
+    
+    <ion-button expand="full" color="success" (click)="editar()">Salvar</ion-button>
+    <ion-button expand="full" (click)="mensagemDeConfirmacao()" color="danger">Excluir</ion-button>
+    </form>
   </ion-list>
 </ion-content>

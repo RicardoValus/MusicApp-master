@@ -1,48 +1,87 @@
 ion-header {
   ion-toolbar {
+    ion-buttons {
+      ion-back-button {
+        color: #1db954;
+      }
+    }
+
     ion-title#titulo {
       font-size: 24px;
       font-weight: bold;
       text-align: center;
-      color: #009900;
-      background-color: #f0f0f0; 
-      padding: 10px; 
-      border-radius: 5px; 
-      border: 1px solid #009900;
+      color: #1db954;
+      background-color: #191414;
+      padding: 10px;
+      border-bottom: 2px solid #1db954;
     }
   }
 }
 
-ion-back-button {
-  color: #009900;
-  font-size: 28px; 
-}
+ion-content {
+  ion-list {
+    form {
+      ion-item {
+        ion-label {
+          color: #1db954;
+          font-weight: bold;
+        }
 
-ion-item {
-  ion-label#musica {
-    font-weight: bold;
-    font-size: 20px; 
-    color: #009900;
-    background-color: #f5f5f5; 
-    padding: 12px; 
-    border-radius: 8px; 
-    border: 2px solid #009900; 
-  }
-}
+        ion-input,
+        ion-select {
+          border-color: #1db954;
 
-ion-fab-button {
-  background-color: #009900; 
-  color: #f0f0f0; 
-  border-radius: 50%; 
-  width: 48px; 
-  height: 48px; 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
+          &:focus {
+            border-color: #1db954;
+          }
+        }
 
-  ion-icon {
-    font-size: 32px; 
-  }
+        ion-button {
+          background-color: #1db954;
+          color: #fff;
+          transition: background-color 0.3s ease;
 
-  &:hover {
-    background-color: #008800; 
+          &:hover {
+            background-color: #25a05c;
+          }
+        }
+
+        span {
+          color: #1db954;
+          font-weight: bold;
+          margin-top: 5px;
+          display: block;
+        }
+      }
+
+      ion-button {
+        margin-top: 10px;
+
+        &.size-default {
+          color: #1db954;
+          border-color: #1db954;
+          background-color: #191414;
+
+          &:hover {
+            background-color: #1db954;
+            color: #fff;
+          }
+        }
+
+        &.color-danger {
+          background-color: #d9534f;
+          color: #fff;
+          transition: background-color 0.3s ease;
+
+          &:hover {
+            background-color: #c9302c;
+          }
+        }
+      }
+
+      input[type="file"] {
+        display: none;
+      }
+    }
   }
 }

@@ -6,6 +6,7 @@ export class Musica{
     private _duracao!: string;
     private _id!: string;
     private _downloadURL!: any;
+    private _uid!: string;
 
 
     public get downloadURL(): any {
@@ -64,4 +65,11 @@ export class Musica{
    public set duracao(duracao: string){
      this._duracao = duracao;
    }
+
+   public get uid(): string {
+    return this._uid;
+  }
+  public set uid(value: string) {
+    this._uid = value;
+  }
 }

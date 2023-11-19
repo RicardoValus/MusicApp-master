@@ -1,31 +1,42 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, Injector } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Musica } from '../entities/Musica';
 import { finalize } from 'rxjs/operators';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { AutenticacaoService } from './autenticacao.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService {
   private PATH : string = "musicas";
+  user : any;
 
-  constructor(private firestore : AngularFirestore, private storage : AngularFireStorage) { 
+  constructor(private firestore : AngularFirestore, private storage : AngularFireStorage, @Inject(Injector)private readonly injector: Injector) { 
+    
   }
+
+  
+ private injectAuthService(){
+  return this.injector.get(AutenticacaoService)
+ }
+  
   buscarTodos(){
-    return this.firestore.collection(this.PATH).snapshotChanges();
+    this.user = this.injectAuthService().getUserLogged();
+    return this.firestore.collection(this.PATH, ref => ref.where('uid', '==', this.user.uid)).snapshotChanges();
   }
+
 
   cadastrar(musica : Musica){
     return this.firestore.collection(this.PATH)
     .add({nome : musica.nome, cantor : musica.cantor, genero : musica.genero,
-       data : musica.data, duracao : musica.duracao, downloadURL : musica.downloadURL})
+       data : musica.data, duracao : musica.duracao, downloadURL : musica.downloadURL, uid: musica.uid})
   }
 
   editar(musica : Musica, id : string){
     return this.firestore.collection(this.PATH).doc(id)
     .update({nome : musica.nome, cantor : musica.cantor, genero : musica.genero,
-       data : musica.data, duracao : musica.duracao, downloadURL : musica.downloadURL})
+       data : musica.data, duracao : musica.duracao, downloadURL : musica.downloadURL, uid: musica.uid})
   }
   
   excluir(id : string){

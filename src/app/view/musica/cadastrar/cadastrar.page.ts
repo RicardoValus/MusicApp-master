@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { Alert } from 'src/app/common/alert';
 import { Musica } from 'src/app/model/entities/Musica';
+import { AutenticacaoService } from 'src/app/model/services/autenticacao.service';
 import { FirebaseService } from 'src/app/model/services/firebase.service';
 
 @Component({
@@ -10,41 +13,60 @@ import { FirebaseService } from 'src/app/model/services/firebase.service';
   styleUrls: ['./cadastrar.page.scss'],
 })
 export class CadastrarPage implements OnInit {
-  public nome! : string;
-  public cantor! : string;
-  public genero! : number;
-  public data! : number;
-  public duracao! : string;
-  public imagem! : any;
-
+  cadastrarForm!: FormGroup;
+  user: any;
+  
   constructor(private alertController: AlertController,
-    private router : Router, private firebase : FirebaseService) { }
+    private router : Router, private firebase : FirebaseService, private auth: AutenticacaoService, private builder: FormBuilder, private alert: Alert){
+      this.user = this.auth.getUserLogged();
+      this.cadastrarForm = new FormGroup({
+        nome: new FormControl(''),
+        cantor: new FormControl(''),
+        genero: new FormControl(''),
+        data: new FormControl(''),
+        duracao: new FormControl(''),
+        imagem: new FormControl('')
+      })
+    }
 
-  ngOnInit() {
+  ngOnInit(){
+    this.cadastrarForm = this.builder.group({
+      nome: ['', [Validators.required]],
+      cantor: ['', [Validators.required]],
+      genero: ['', [Validators.required]],
+      data: ['', [Validators.required]],
+      duracao: ['', [Validators.required]],
+      imagem: ['', [Validators.required]]
+    })
   }
 
-  uploadFile(imagem : any){
-    this.imagem = imagem.files;
+  uploadFile(event : any){
+    const imagem = event.target.files;
+
+    if(imagem && imagem.length > 0){
+      this.cadastrarForm.patchValue({ imagem: imagem});
+    }
   }
 
   cadastrar(){
-    if(this.nome && this.cantor && this.imagem){
-      let novo: Musica = new Musica(this.nome, this.cantor);
-      novo.genero = this.genero;
-      novo.data = this.data;
-      novo.duracao = this.duracao;
-      if(this.imagem){
-        this.firebase.uploadImage(this.imagem, novo)?.then(() => {this.router.navigate(['/home'])})
+    if(this.cadastrarForm.valid){
+      const novo: Musica = new Musica(this.cadastrarForm.value.nome, this.cadastrarForm.value.cantor);
+      novo.genero = this.cadastrarForm.value.genero;
+      novo.data = this.cadastrarForm.value.data;
+      novo.duracao = this.cadastrarForm.value.duracao;
+      novo.uid = this.user.uid;
+      if(this.cadastrarForm.value.imagem){
+        this.firebase.uploadImage(this.cadastrarForm.value.imagem, novo)?.then(() =>{
+          this.router.navigate(['/home']);
+        });
       }else{
-        this.firebase.cadastrar(novo)
-      .then(()=> this.router.navigate(["/home"]))
-      .catch((error) => {
-        console.log(error)
-        this.presentAlert("Erro", "Erro ao salvar musica!");
-      })
-      }   
+        this.firebase.cadastrar(novo).then(() => this.router.navigate(['/home'])).catch((error) =>{
+          console.log(error);
+          this.alert.presentAlert('Erro', 'Erro ao salvar a musica!');
+        });
+      }
     }else{
-      this.presentAlert("Erro", "Nome, Cantor e imagem são campos obrigatórios!");
+      this.alert.presentAlert('Erro', 'Todos os campos são obrigatórios!')
     }
   }
 

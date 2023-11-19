@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { Alert } from 'src/app/common/alert';
 import { Musica } from 'src/app/model/entities/Musica';
+import { AutenticacaoService } from 'src/app/model/services/autenticacao.service';
 import { FirebaseService } from 'src/app/model/services/firebase.service';
 
 @Component({
@@ -10,62 +13,54 @@ import { FirebaseService } from 'src/app/model/services/firebase.service';
   styleUrls: ['./detalhar.page.scss'],
 })
 export class DetalharPage implements OnInit {
-  indice! : number;
-  nome! : string;
-  cantor! : string;
-  genero! : number;
-  data! : number;
-  duracao! : string;
-  musica! : Musica;
+  detalharForm!: FormGroup;
+  user: any;
+  musica!: Musica;
+  imagem: any;
   edicao: boolean = true;
-  imagem! : any;
 
   constructor(private actRoute : ActivatedRoute,
     private firebase : FirebaseService,
     private alertController : AlertController,
-    private router : Router) { }
+    private router : Router, private alert: Alert, private builder: FormBuilder, private auth: AutenticacaoService){
+      this.user = this.auth.getUserLogged();
+    }
 
   ngOnInit() {
     this.musica = history.state.musica;
-    this.nome = this.musica.nome;
-    this.cantor = this.musica.cantor;
-    this.genero = this.musica.genero;
-    this.data = this.musica.data;
-    this.duracao = this.musica.duracao;
+
+    this.detalharForm = this.builder.group({
+      nome: [this.musica.nome, [Validators.required]],
+      cantor: [this.musica.cantor, [Validators.required]],
+      genero: [this.musica.genero, [Validators.required]],
+      data: [ this.musica.data, [Validators.required]],
+      duracao: [this.musica.duracao, [Validators.required]],
+      imagem: [null]
+    })
   }
 
-  uploadFile(imagem : any){
-    this.imagem = imagem.files;
+  uploadFile(event : any){
+    this.imagem = event.target.files;
 
-  }
-
-  habilitar(){
-    if(this.edicao){
-      this.edicao = false;
-    }else{
-      this.edicao = true;
-    }
   }
 
   editar(){
-    if(this.nome && this.cantor){
-      let novo: Musica = new Musica(this.nome, this.cantor);
-      novo.genero = this.genero;
-      novo.data = this.data;
-      novo.duracao = this.duracao;
+    if(this.detalharForm.valid){
+      const novo: Musica = {...this.detalharForm.value, uid: this.user.uid, id: this.musica.id, downloadURL: this.musica.downloadURL};
       if(this.imagem){
-        this.firebase.uploadImage(this.imagem, novo)?.then(() => this.router.navigate(['/home']))
-        this.firebase.excluir(this.musica.id)
+        this.firebase.uploadImage(this.imagem, novo)?.then(() => {
+          this.router.navigate(['/home'])
+        });
       }else{
-        novo.downloadURL = this.musica.downloadURL
-        this.firebase.editar(novo, this.musica.id)
-      .then(()=> this.router.navigate(["/home"]))
-      .catch((error) => {
-        console.log(error)
-        this.presentAlert("Erro", "Erro ao editar musica!");})
+        novo.downloadURL = this.musica.downloadURL;
+
+        this.firebase.editar(novo, this.musica.id).then(() => this.router.navigate(['/home'])).catch((error) => {
+          console.log(error);
+          this.alert.presentAlert('Erro', 'Erro ao atualizar a música!');
+        });
       }
     }else{
-      this.presentAlert("Erro", "Nome e Cantor são campos obrigatórios!");
+      this.alert.presentAlert('Erro', 'Verifique os campos obrigatórios!');
     }
   }
 
@@ -81,19 +76,10 @@ export class DetalharPage implements OnInit {
     .then(()=> this.router.navigate(["/home"]))
     .catch((error) => {
     console.log(error)
-    this.presentAlert("Erro", "Erro ao excluir musica!");})
+    this.alert.presentAlert("Erro", "Erro ao excluir musica!");})
     this.router.navigate(["/home"]);
   }
 
-  async presentAlert(subHeader: string, message: string){
-    const alert = await this.alertController.create({
-      header: 'Lista de Músicas',
-      subHeader: subHeader,
-      message: message,
-      buttons: ['OK']
-    });
-    await alert.present();
-  }
 
   async presentAlertConfirm(subHeader: string, message: string){
     const alert = await this.alertController.create({
@@ -102,10 +88,8 @@ export class DetalharPage implements OnInit {
       message: message,
       buttons: [
         {text: 'Cancel', role: 'cancel', handler: () => {
-          // this.handlerMessage = 'Alert canceled';
         }, },
         {text: 'OK', role: 'confirm', handler:() => { this.excluirMusica()
-          // this.handlerMessage = 'Alert confirmed';
         },},
       ]
     });

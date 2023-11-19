@@ -10,7 +10,7 @@ export class Alert{
 
     async presentAlert(subHeader: string, message: string) {
         const alert = await this.alertController.create({
-          header: 'Agenda de Contatos',
+          header: 'Playlist de músicas',
           subHeader: subHeader,
           message: message,
           buttons: ['OK'],

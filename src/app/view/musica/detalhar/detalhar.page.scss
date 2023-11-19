@@ -1,47 +1,87 @@
 ion-header {
   ion-toolbar {
+    ion-buttons {
+      ion-back-button {
+        color: #1db954; 
+      }
+    }
+
     ion-title#titulo {
       font-size: 24px;
       font-weight: bold;
       text-align: center;
-      color: #00cc00; 
-      background-color: #f0f0f0; 
-      padding: 10px; 
-      border-bottom: 2px solid #00cc00;
+      color: #1db954; 
+      background-color: #191414; 
+      padding: 10px;
+      border-bottom: 2px solid #1db954; 
     }
   }
 }
 
-ion-back-button {
-  color: #00cc00; 
+ion-content {
+  ion-list {
+    form {
+      ion-item {
+        ion-label {
+          color: #1db954; 
+          font-weight: bold;
+        }
 
-  &:hover {
-    color: #009900; 
-  }
-}
+        ion-input,
+        ion-select {
+          border-color: #1db954; 
 
-ion-toggle {
-  background-color: #00cc00; 
-  border-radius: 20px;
-  padding: 5px 10px; 
-  color: #fff; 
-  font-weight: bold; 
-  transition: background-color 0.3s ease; 
+          &:focus {
+            border-color: #1db954; 
+          }
+        }
 
-  &:hover {
-    background-color: #009900;
-  }
-}
+        ion-button {
+          background-color: #1db954; 
+          color: #fff;
+          transition: background-color 0.3s ease;
 
-ion-button {
-  background-color: #009900; 
-  color: #fff; 
-  border: 1px solid #00cc00;
-  border-radius: 5px; 
-  font-weight: bold; 
-  transition: background-color 0.3s ease; 
+          &:hover {
+            background-color: #25a05c; 
+          }
+        }
 
-  &:hover {
-    background-color: #00cc00; 
+        span {
+          color: #1db954; 
+          font-weight: bold;
+          margin-top: 5px; 
+          display: block; 
+        }
+      }
+
+      ion-button {
+        margin-top: 10px; 
+      }
+
+      input[type="file"] {
+        display: none; 
+      }
+
+      ion-button.size-default {
+        color: #1db954;
+        border-color: #1db954; 
+        background-color: #191414; 
+
+        &:hover {
+          background-color: #1db954; 
+          color: #fff;
+        }
+      }
+
+      ion-button.color-danger {
+        background-color: #d9534f;
+        color: #fff;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          background-color: #c9302c; 
+        }
+      }
+    }
   }
 }

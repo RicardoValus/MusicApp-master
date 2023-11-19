@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { Musica } from 'src/app/model/entities/Musica';
+import { AutenticacaoService } from 'src/app/model/services/autenticacao.service';
 import { FirebaseService } from 'src/app/model/services/firebase.service';
 
 
@@ -14,7 +15,8 @@ export class HomePage {
   public listaDeMusicas : Musica[] = [];
 
   constructor(private alertController : AlertController,
-    private router : Router, private firebase : FirebaseService) {
+    private router : Router, private firebase : FirebaseService, private auth: AutenticacaoService) {
+    console.log(this.auth.getUserLogged())
     this.firebase.buscarTodos() 
     .subscribe(res => {
       this.listaDeMusicas = res.map(musica => {
@@ -35,3 +37,6 @@ export class HomePage {
   }
 
 }
+
+
+
