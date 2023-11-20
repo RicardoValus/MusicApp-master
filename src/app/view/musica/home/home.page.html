@@ -3,14 +3,21 @@
     <ion-title id="titulo">
       Playlist
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="deslogar()">
+        Sair
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-list *ngFor="let musica of this.listaDeMusicas">
+  <ion-list *ngFor="let musica of listaDeMusicas">
     <ion-item (click)="editar(musica)">
-      <ion-avatar> <img src = "{{ musica.downloadURL }}"> </ion-avatar>
-      <ion-label id="musica">{{musica.nome}}</ion-label>
+      <ion-avatar>
+        <img src="{{ musica.downloadURL }}" />
+      </ion-avatar>
+      <ion-label id="musica">{{ musica.nome }}</ion-label>
     </ion-item>
   </ion-list>
 
