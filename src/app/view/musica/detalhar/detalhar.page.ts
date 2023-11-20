@@ -39,10 +39,13 @@ export class DetalharPage implements OnInit {
     })
   }
 
-  uploadFile(event : any){
+  uploadFile(event: any) {
+    console.log('uploadFile() chamado');
     this.imagem = event.target.files;
-
+    console.log('this.imagem:', this.imagem);
   }
+  
+  
 
   editar(){
     if(this.detalharForm.valid){

@@ -1,19 +1,13 @@
 ion-header {
   ion-toolbar {
-    ion-buttons {
-      ion-back-button {
-        color: #1db954; 
-      }
-    }
-
     ion-title#titulo {
       font-size: 24px;
       font-weight: bold;
       text-align: center;
-      color: #1db954; 
-      background-color: #191414; 
+      color: #1db954;
+      background-color: #191414;
       padding: 10px;
-      border-bottom: 2px solid #1db954; 
+      border-bottom: 2px solid #1db954;
     }
   }
 }
@@ -23,64 +17,43 @@ ion-content {
     form {
       ion-item {
         ion-label {
-          color: #1db954; 
+          color: #1db954;
           font-weight: bold;
         }
 
         ion-input,
         ion-select {
-          border-color: #1db954; 
+          border-color: #1db954;
 
           &:focus {
-            border-color: #1db954; 
+            border-color: #1db954;
           }
         }
 
         ion-button {
-          background-color: #1db954; 
-          color: #fff;
-          transition: background-color 0.3s ease;
+          margin-top: 10px;
 
-          &:hover {
-            background-color: #25a05c; 
+          &.success-button {
+            background-color: #1db954;
+            color: #fff;
+            transition: background-color 0.3s ease;
+
+            &:hover {
+              background-color: #25a05c;
+            }
           }
         }
 
         span {
-          color: #1db954; 
+          color: #1db954;
           font-weight: bold;
-          margin-top: 5px; 
-          display: block; 
+          margin-top: 5px;
+          display: block;
         }
       }
 
       ion-button {
-        margin-top: 10px; 
-      }
-
-      input[type="file"] {
-        display: none; 
-      }
-
-      ion-button.size-default {
-        color: #1db954;
-        border-color: #1db954; 
-        background-color: #191414; 
-
-        &:hover {
-          background-color: #1db954; 
-          color: #fff;
-        }
-      }
-
-      ion-button.color-danger {
-        background-color: #d9534f;
-        color: #fff;
-        transition: background-color 0.3s ease;
-
-        &:hover {
-          background-color: #c9302c; 
-        }
+        margin-top: 10px;
       }
     }
   }
